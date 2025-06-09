@@ -10,12 +10,16 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 from datetime import timedelta, datetime
+from dotenv import load_dotenv
+import os
 
 # Creating the app with DARKLY's bootstrap theme
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY], suppress_callback_exceptions = True)
 
 # Importing the data
-engine = create_engine('postgresql://postgres:D4t4B4s3@localhost:5432/fitness_database')
+load_dotenv('password.env')
+password = os.getenv('DB_PASSWORD')
+engine = create_engine(f'postgresql://postgres:{password}@localhost:5432/fitness_database')
 # Exercises Table
 df = pd.read_sql('SELECT * FROM exercises', engine)
 df['date'] = pd.to_datetime(df['date'])
